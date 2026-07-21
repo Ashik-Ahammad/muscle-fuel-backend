@@ -3,16 +3,16 @@ dns.setServers(["8.8.8.8", "8.8.4.4"]);
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
+import { connectDB } from '../src/config/db.js';
 import { toNodeHandler } from 'better-auth/node';
-import { auth } from './auth.js';
-import routineRoutes from './routes/routineRoutes.js';
-import movementRoutes from './routes/movementRoutes.js';
-import planRoutes from './routes/planRoutes.js';
-import manageRoutes from './routes/manageRoutes.js';
-import aiRoutes from './routes/aiRoutes.js';
-import profileRoutes from './routes/profileRoutes.js';
-import { requireAuth } from './middlewares/authMiddleware.js';
+import { auth } from '../src/auth.js';
+import routineRoutes from '../src/routes/routineRoutes.js';
+import movementRoutes from '../src/routes/movementRoutes.js';
+import planRoutes from '../src/routes/planRoutes.js';
+import manageRoutes from '../src/routes/manageRoutes.js';
+import aiRoutes from '../src/routes/aiRoutes.js';
+import profileRoutes from '../src/routes/profileRoutes.js';
+import { requireAuth } from '../src/middlewares/authMiddleware.js';
 
 dotenv.config();
 
@@ -59,3 +59,5 @@ if (process.env.NODE_ENV !== 'production') {
     console.log(`Server is running on port ${PORT}`);
   });
 }
+
+export default app;
