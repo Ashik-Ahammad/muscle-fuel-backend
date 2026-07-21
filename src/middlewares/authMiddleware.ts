@@ -3,8 +3,19 @@ import { auth } from '../auth.js'; // Adjust path if necessary
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const webHeaders = new Headers();
+    for (const [key, value] of Object.entries(req.headers)) {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          value.forEach(v => webHeaders.append(key, v));
+        } else {
+          webHeaders.set(key, value);
+        }
+      }
+    }
+
     const session = await auth.api.getSession({
-      headers: req.headers
+      headers: webHeaders
     });
 
     if (!session || !session.user) {
