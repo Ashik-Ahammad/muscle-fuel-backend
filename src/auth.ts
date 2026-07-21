@@ -20,6 +20,12 @@ const db = client.db(process.env.DB_NAME);
 
 export const auth = betterAuth({
   trustedOrigins: [process.env.CLIENT_URL as string],
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: 'none',
+      secure: true,
+    },
+  },
   database: mongodbAdapter(db, {
     client, // Pass the client for connection tracking
     transaction: false, // Prevents issues on standalone Mongo clusters
