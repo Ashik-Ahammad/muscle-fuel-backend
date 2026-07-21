@@ -76,6 +76,11 @@ app.use("/api/ai", requireAuth, aiRoutes);
 
 app.use("/api/profile", requireAuth, profileRoutes);
 
+// Root route to indicate server is running
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome to Muscle Fuel API! The server is running successfully.");
+});
+
 // Basic health check route
 
 app.get("/api/health", (req, res) => {
