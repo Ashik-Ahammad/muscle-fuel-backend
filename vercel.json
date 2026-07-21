@@ -1,6 +1,12 @@
 {
   "name": "muscle-fuel-api-v2",
   "version": 2,
+  "builds": [
+    {
+      "src": "api/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
