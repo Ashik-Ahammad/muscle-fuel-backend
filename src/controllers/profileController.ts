@@ -55,7 +55,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
       try {
         // Try string ID first (some BetterAuth mongo adapters use string IDs)
         let result = await mongoose.connection.db.collection('user').updateOne(
-          { _id: userId },
+          { _id: userId as any },
           { $set: updateData }
         );
 

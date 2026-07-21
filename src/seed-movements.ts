@@ -57,7 +57,7 @@ const seedMovements = async () => {
     const allMovements: any[] = [];
 
     for (const routine of routines) {
-      const template = movementSets[routine.difficulty] || movementSets['Beginner'];
+      const template = movementSets[(routine as any).difficulty] || movementSets['Beginner'];
       if (!template) continue;
       template.forEach((m, index) => {
         allMovements.push({

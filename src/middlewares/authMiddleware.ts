@@ -3,7 +3,7 @@ import { jwtVerify } from 'jose-cjs';
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    let token = '';
+    let token: string | undefined;
 
     // 1. Try to get token from Authorization header
     const authHeader = req.headers.authorization;
@@ -13,8 +13,10 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     // 2. Try to get token from cookies if no Auth header
     else if (req.headers.cookie) {
       const cookies = req.headers.cookie.split(';').reduce((acc: Record<string, string>, cookie) => {
-        const [key, value] = cookie.trim().split('=');
-        acc[key] = value;
+        const parts = cookie.trim().split('=');
+        if (parts[0]) {
+            acc[parts[0]] = parts[1] || '';
+        }
         return acc;
       }, {});
       
@@ -38,11 +40,13 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     const { payload } = await jwtVerify(token, secret);
 
     // Attach decoded user to the request object
-    req.user = {
+    const userPayload: { id: string; email?: string; name?: string } = {
       id: (payload.sub || payload.userId) as string,
-      email: payload.email as string | undefined,
-      name: payload.name as string | undefined,
     };
+    if (payload.email) userPayload.email = payload.email as string;
+    if (payload.name) userPayload.name = payload.name as string;
+
+    req.user = userPayload;
 
     next();
   } catch (error: any) {
